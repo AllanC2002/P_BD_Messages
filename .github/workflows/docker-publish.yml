@@ -106,9 +106,9 @@ jobs:
         - name: Deploy EC2
           uses: appleboy/ssh-action@v1.0.3
           with:
-            host: ${{ secrets.EC2_IP }}
+            host: ${{ secrets.EC2_IP_P }}
             username: ubuntu
-            key: ${{ secrets.EC2_PEM }}
+            key: ${{ secrets.EC2_PEM_P }}
             script: |
               docker stop project_bd_messages || true
               docker rm project_bd_messages || true
