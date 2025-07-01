@@ -98,7 +98,7 @@ jobs:
         run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
 
   deploy:
-      name: qa bd_Publication
+      name: qa db messages
       needs: build
       runs-on: ubuntu-latest
 
@@ -110,15 +110,15 @@ jobs:
             username: ubuntu
             key: ${{ secrets.EC2_PEM }}
             script: |
-              docker stop db_publications || true
-              docker rm db_publications || true
+              docker stop db_messages || true
+              docker rm db_messages || true
               docker rmi ${{ secrets.DOCKER_REPO }}:qa || true
 
               docker pull ${{ secrets.DOCKER_REPO }}:qa
 
               docker run -d \
-              --name db_publications \
-              -p 27018:27017 \
+              --name db_messages \
+              -p 27017:27017 \
               --restart unless-stopped \
               -e MONGO_INITDB_ROOT_USERNAME=${{ secrets.MONGO_USER }} \
               -e MONGO_INITDB_ROOT_PASSWORD=${{ secrets.MONGO_PASSWORD }} \
